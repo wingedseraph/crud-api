@@ -1,7 +1,7 @@
 
 
 
-![gif-crud](https://wingedseraph.github.io/dump/assets/gif-crud.gif)
+![gif-crud](https://wingedseraph.github.io/dump/assets/crud.gif)
 
 
 A simple **crud-api** built with Node.js. Supports user creation, reading, updating, and deletion.
