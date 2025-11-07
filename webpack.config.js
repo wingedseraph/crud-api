@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { URL, fileURLToPath } from 'url';
 
 export default {
   entry: './src/index.ts',

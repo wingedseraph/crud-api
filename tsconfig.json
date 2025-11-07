@@ -1,17 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "ESNext",
     "lib": [
-      "ES2022"
+      "ESNext"
     ],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    // "baseUrl": "./",
-    // "paths": {},
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "baseUrl": "./",
     "esModuleInterop": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",
