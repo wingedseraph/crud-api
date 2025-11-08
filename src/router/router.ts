@@ -13,7 +13,7 @@ export const route = (
 
   // console.log(routes[method]);
 
-  // res.end(`method: ${method}, url: ${url}`);
+  res.end(`method: ${method}, url: ${url}`);
 
   // console.log(path, method)
   // const routeFound = typeof handlerObj[path] == 'function' && handlerObj.hasOwnProperty(path);

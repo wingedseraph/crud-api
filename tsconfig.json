@@ -7,7 +7,7 @@
     ],
     "module": "commonjs",
     "moduleResolution": "Node",
-    "baseUrl": "./",
+    // "baseUrl": "./",
     "esModuleInterop": true,
     "sourceMap": true,
     "removeComments": true,
