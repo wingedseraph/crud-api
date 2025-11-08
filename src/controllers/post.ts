@@ -4,6 +4,7 @@ import { sendGenericResponse } from '../handler/send-response';
 import { parseId } from '../utils/parseId';
 import { parseBody } from '../utils/parseBody';
 import { randomUUID } from 'node:crypto';
+import { MESSAGE } from '../consts/messages';
 
 export const post = (
   request: IncomingMessage,
@@ -12,7 +13,7 @@ export const post = (
 ) => {
   const { parsed, missingFieldsArray } = parseBody(body);
 
-  if (missingFieldsArray.length > 1) {
+  if (missingFieldsArray.length > 0) {
     return sendGenericResponse(
       response,
       400,
@@ -21,9 +22,10 @@ export const post = (
   }
 
   // todo: move to separate fn? do i need validate smh there?
+
   parsed.id = randomUUID();
   users.push(parsed);
 
-  // return sendGenericResponse(response, 201, 'Created');
+  // return sendGenericResponse(response, 201, 'Created'); // this one
   return sendGenericResponse(response, 201, users);
 };
