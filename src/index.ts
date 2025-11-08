@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { createServer } from 'node:http';
 import { route } from './router/router';
 
-const PORT = process.env.CRUD_PORT;
+const PORT = process.env.PORT;
 
 // type User = {
 //   username: string;
