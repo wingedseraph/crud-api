@@ -5,14 +5,15 @@ import { MESSAGE } from '../consts/messages';
 export const sendGenericResponse = (
   response: ServerResponse<IncomingMessage>,
   responseCode = 404,
-  message?: string,
+  message?: string | object | string[],
 ) => {
   if (!response) return null;
 
   response.writeHead(responseCode, { 'Content-Type': 'application/json' });
+  // do i need return without object wrapper?
   return response.end(
     JSON.stringify({
-      message: message ?? MESSAGE.RESOURCE_NOT_FOUND,
+      message,
     }),
   );
 };
@@ -25,7 +26,7 @@ export const sendNotFoundResponse = (
   response.writeHead(404, { 'Content-Type': 'application/json' });
   return response.end(
     JSON.stringify({
-      message: MESSAGE.RESOURCE_NOT_FOUND,
+      message: MESSAGE.NOT_FOUND,
     }),
   );
 };

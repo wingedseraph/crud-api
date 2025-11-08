@@ -4,7 +4,6 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from 'node:http';
-
 import { sendNotFoundResponse } from './handler/send-response';
 import { route } from './router/router';
 
