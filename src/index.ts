@@ -1,8 +1,12 @@
 import 'dotenv/config';
-import { createServer } from 'node:http';
-import { route } from './router/router';
-import { IncomingMessage, ServerResponse } from 'node:http';
+import {
+  createServer,
+  type IncomingMessage,
+  type ServerResponse,
+} from 'node:http';
+
 import { sendNotFoundResponse } from './handler/send-response';
+import { route } from './router/router';
 
 const PORT = process.env.SINGLE_PORT;
 

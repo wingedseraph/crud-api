@@ -1,15 +1,12 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { MESSAGE } from '../consts/messages';
 
-export const sendGenericResponse = ({
-  response,
+// todo: do we sure need to place it there? may be utils?
+export const sendGenericResponse = (
+  response: ServerResponse<IncomingMessage>,
   responseCode = 404,
-  message = MESSAGE.UNKNOWN_ERROR,
-}: {
-  response: ServerResponse<IncomingMessage>;
-  responseCode?: number;
-  message?: 'Unknown Error' | undefined;
-}) => {
+  message?: string,
+) => {
   if (!response) return null;
 
   response.writeHead(responseCode, { 'Content-Type': 'application/json' });

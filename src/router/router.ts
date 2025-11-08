@@ -1,22 +1,28 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
+import { MESSAGE } from '../consts/messages';
+import { sendGenericResponse } from '../handler/send-response';
 
-// import { routes } from 'src/handler/handler';
+const ROUTES_BY_METHOD = {
+  GET: () => 'get',
+  POST: () => 'post',
+  PUT: () => 'put',
+  DELETE: () => 'delete',
+} as const;
 
-// function route(path, res, handlerObj, payload) {
 export const route = (
-  req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
+  request: IncomingMessage,
+  response: ServerResponse<IncomingMessage>,
 ) => {
-  // console.log(`Routing request for '${path}'`);
-  const { method, url } = req;
-  console.log(`method: ${method}, url: ${url} ${res.headersSent}`);
+  if (!(request || response)) return null;
 
-  // console.log(routes[method]);
+  const { method, url } = request;
 
-  res.end(`method: ${method}, url: ${url}`);
+  const handler =
+    method && ROUTES_BY_METHOD[method as keyof typeof ROUTES_BY_METHOD];
 
-  // console.log(path, method)
-  // const routeFound = typeof handlerObj[path] == 'function' && handlerObj.hasOwnProperty(path);
-  //
-  // return routeFound ? handlerObj[path](res, payload) : failed(path, res);
+  if (handler) {
+    console.log(request, response, url);
+  } else {
+    sendGenericResponse(response, 405, MESSAGE.METHOD_NOT_ALLOWED);
+  }
 };
