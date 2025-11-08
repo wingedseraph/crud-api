@@ -21,7 +21,6 @@ export const delete_ = (
       return sendGenericResponse(response, 404, `${userId} doesn't exist`);
     }
 
-    // users.filter((user) => user.id !== userId)
     users.dispatch({
       type: 'DELETE_USER',
       id: userId,

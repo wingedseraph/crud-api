@@ -1,13 +1,10 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
 import { users } from '../db';
 import { sendGenericResponse } from '../handler/send-response';
-import { parseId } from '../utils/parseId';
 import { parseBody } from '../utils/parseBody';
-import { randomUUID } from 'node:crypto';
-import { MESSAGE } from '../consts/messages';
 
 export const post = (
-  request: IncomingMessage,
+  _request: IncomingMessage,
   response: ServerResponse<IncomingMessage>,
   body: string,
 ) => {
@@ -21,11 +18,10 @@ export const post = (
     );
   }
 
-  // todo: move to separate fn? do i need validate smh there?
+  users.dispatch({
+    type: 'ADD_USER',
+    user: parsed
+  })
 
-  parsed.id = randomUUID();
-  users.push(parsed);
-
-  // return sendGenericResponse(response, 201, 'Created'); // this one
-  return sendGenericResponse(response, 201, users);
+  return sendGenericResponse(response, 201, parsed);
 };

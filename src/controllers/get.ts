@@ -1,5 +1,4 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
-import { validate } from 'uuid';
 import { users } from '../db';
 import { sendGenericResponse } from '../handler/send-response';
 import { parseId } from '../utils/parseId';
@@ -17,7 +16,7 @@ export const get = (
       return sendGenericResponse(response, 400, validation.error);
     }
 
-    const userExist = users.find((user) => user.id === userId);
+    const userExist = users.getState().find((user) => user.id === userId);
     if (!userExist) {
       return sendGenericResponse(response, 404, `${userId} doesn't exist`);
     }
@@ -25,5 +24,5 @@ export const get = (
     return sendGenericResponse(response, 200, [userExist]);
   }
 
-  sendGenericResponse(response, 200, users);
+  sendGenericResponse(response, 200, users.getState());
 };
