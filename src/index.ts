@@ -14,12 +14,20 @@ const requestListener = (
   response: ServerResponse<IncomingMessage>,
 ) => {
   const { url } = request;
+  let body = '';
+  request.on('data', (chunk) => (body += chunk));
 
-  if (url && url.startsWith('/api/users')) {
-    route(request, response);
-  } else {
-    sendNotFoundResponse(response);
-  }
+  request.on('end', () => {
+    try {
+      if (url && url.startsWith('/api/users')) {
+        route(request, response, body);
+      } else {
+        sendNotFoundResponse(response);
+      }
+    } catch (e) {
+      if (e instanceof Error) console.error(e.message);
+    }
+  });
 };
 
 const SERVER = createServer(requestListener);

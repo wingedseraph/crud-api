@@ -3,14 +3,7 @@ import { validate } from 'uuid';
 import { users } from '../db';
 import { sendGenericResponse } from '../handler/send-response';
 import { parseId } from '../utils/parseId';
-
-const validateUserId = (id: string): { isValid: boolean; error?: string } => {
-  if (!validate(id)) {
-    return { isValid: false, error: `${id} is not a valid uuid` };
-  }
-  return { isValid: true };
-};
-
+import { validateUserId } from '../utils/validateUserId';
 
 export const get = (
   request: IncomingMessage,
