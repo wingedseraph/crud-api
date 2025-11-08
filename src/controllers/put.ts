@@ -1,0 +1,37 @@
+import { type IncomingMessage, type ServerResponse } from 'node:http';
+import { users } from '../db';
+import { sendGenericResponse } from '../handler/send-response';
+import { parseId } from '../utils/parseId';
+import { validateUserId } from '../utils/validateUserId';
+import { parseBody } from '../utils/parseBody';
+
+export const put = (
+  request: IncomingMessage,
+  response: ServerResponse<IncomingMessage>,
+  body: string
+) => {
+  const userId = parseId(request);
+  const { parsed  } = parseBody(body);
+
+  if (userId) {
+    const validation = validateUserId(userId);
+    if (!validation.isValid) {
+      return sendGenericResponse(response, 400, validation.error);
+    }
+
+    const userExist = users.getState().find((user) => user.id === userId);
+    if (!userExist) {
+      return sendGenericResponse(response, 404, `${userId} doesn't exist`);
+    }
+
+    users.dispatch({
+      type: 'UPDATE_USER',
+      id: userId,
+      user: parsed
+    });
+
+    return sendGenericResponse(response, 200, parsed);
+  }
+
+  sendGenericResponse(response, 404);
+};

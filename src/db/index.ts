@@ -15,8 +15,10 @@ type UserAction = {
   user?: User;
 };
 
-const record: GenericReducer<User[], UserAction> = (state: User[] = [], action: UserAction) => {
-
+const record: GenericReducer<User[], UserAction> = (
+  state: User[] = [],
+  action: UserAction,
+) => {
   switch (action.type) {
     case 'ADD_USER': {
       const id = randomUUID();
@@ -24,17 +26,20 @@ const record: GenericReducer<User[], UserAction> = (state: User[] = [], action: 
     }
 
     case 'DELETE_USER':
-      return state.filter((element) => element.id !== action.id);
+      return state.filter((user) => user.id !== action.id);
 
     case 'UPDATE_USER':
-      return state;
+      return state.map((user) => user.id === action.id ? {...user, ...action.user} : user) 
 
     default:
       return state;
   }
 };
 
-export const createStore = <state, action>(reducer: GenericReducer<state, action>, initialState: state) => {
+export const createStore = <state, action>(
+  reducer: GenericReducer<state, action>,
+  initialState: state,
+) => {
   let state: state = initialState;
 
   const getState = () => state;
@@ -45,7 +50,6 @@ export const createStore = <state, action>(reducer: GenericReducer<state, action
 
   return { getState, dispatch };
 };
-
 
 // todo: remove before push
 const initialState: User[] = [
