@@ -1,37 +1,28 @@
 import 'dotenv/config';
-// import { randomUUID } from 'node:crypto';
 import { createServer } from 'node:http';
 import { route } from './router/router';
+import { IncomingMessage, ServerResponse } from 'http';
+import { MESSAGE } from './consts/messages';
 
 const PORT = process.env.PORT;
 
-// type User = {
-//   username: string;
-//   age: number;
-//   hobbies: string[];
-//   id: string;
-// };
-// const user: User[] = null;
+const requestListener = (
+  request: IncomingMessage,
+  response: ServerResponse<IncomingMessage>,
+) => {
+  const { url } = request;
 
-const server = createServer((req, res) => {
-  // const { method, url } = req
-  route(req, res);
+  if (url && url.startsWith('/api/users')) {
+    route(request, response);
+  } else {
+    response.writeHead(404, { 'Content-Type': 'application/json' });
+    response.end(
+      JSON.stringify({
+        message: MESSAGE.RESOURCE_NOT_FOUND,
+      }),
+    );
+  }
+};
 
-  // if (!url) return null;
-
-  // if (url.startsWith('/api/users')) {
-  //   if (method === 'POST') {
-  //     res.end(method);
-  //   } else if (method === 'PUT' && url.includes('/api/users/')) {
-  //     res.end(method);
-  //   } else if (method === 'DELETE' && url.includes('/api/users/')) {
-  //     res.end(method);
-  //   }
-  // } else {
-  //   // 404 for invalid routes
-  //   res.writeHead(404, { 'Content-Type': 'application/json' });
-  //   res.end(JSON.stringify({ message: 'Resource Not Found' }));
-  // }
-});
-
-server.listen(PORT);
+const SERVER = createServer(requestListener);
+SERVER.listen(PORT);

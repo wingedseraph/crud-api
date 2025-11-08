@@ -21,11 +21,11 @@ npm install
 
 Create `.env` file based on `.env.example`:
 
-```
-# port for default
-PORT=4000
+```ini
+# port for default/single
+SINGLE_PORT=4000
 # port for multi
-PORT=5000
+MULTI_PORT=5000
 ```
 
 ## Scripts

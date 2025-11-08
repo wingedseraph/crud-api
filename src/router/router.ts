@@ -1,6 +1,6 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
 
-import { routes } from 'src/handler/handler';
+// import { routes } from 'src/handler/handler';
 
 // function route(path, res, handlerObj, payload) {
 export const route = (
@@ -11,7 +11,7 @@ export const route = (
   const { method, url } = req;
   console.log(`method: ${method}, url: ${url} ${res.headersSent}`);
 
-  console.log(routes[method]);
+  // console.log(routes[method]);
 
   // res.end(`method: ${method}, url: ${url}`);
 
