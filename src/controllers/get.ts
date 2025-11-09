@@ -21,7 +21,7 @@ export const get = (
       return sendGenericResponse(response, 404, `${userId} doesn't exist`);
     }
 
-    return sendGenericResponse(response, 200, [userExist]);
+    return sendGenericResponse(response, 200, userExist);
   }
 
   sendGenericResponse(response, 200, users.getState());

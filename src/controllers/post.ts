@@ -20,8 +20,8 @@ export const post = (
 
   users.dispatch({
     type: 'ADD_USER',
-    user: parsed
-  })
+    user: parsed,
+  });
 
   return sendGenericResponse(response, 201, parsed);
 };
