@@ -1,45 +1,42 @@
 import 'dotenv/config';
-import {
-  createServer,
-  type IncomingMessage,
-  type ServerResponse,
-} from 'node:http';
-import { MESSAGE } from './consts/messages';
-import {
-  sendGenericResponse,
-  sendNotFoundResponse,
-} from './handler/sendResponse';
-import { route } from './router/router';
+import cluster from 'node:cluster';
+import { createServer } from 'node:http';
+import { parseArgs, styleText } from 'node:util';
+import { getServerConfig } from './config/serverConfig';
+import { setupCluster } from './cluster/clusterManager';
+import { createLoadBalancer } from './cluster/loadBalancer';
+import { createSingleServer } from './server/singleServer';
+import { createWorkerServer } from './server/workerServer';
 
-const PORT = Number(process.env.SINGLE_PORT) || 4000;
+const { values } = parseArgs({
+  options: {
+    multi: {
+      type: 'boolean',
+    },
+  },
+});
 
-export const requestListener = (
-  request: IncomingMessage,
-  response: ServerResponse<IncomingMessage>,
-) => {
-  const { url } = request;
-  let body = '';
-  request.on('data', (chunk) => (body += chunk));
+const isMultiMode = values.multi || false;
 
-  request.on('end', () => {
-    try {
-      if (url && url.startsWith('/api/users')) {
-        route(request, response, body);
-      } else {
-        sendNotFoundResponse(response);
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-        sendGenericResponse(response, 500, `${MESSAGE.NOT_FOUND}`);
-      }
-    }
+export const styledBalancer = styleText('cyanBright', 'Load Balancer')
+
+if (isMultiMode && cluster.isPrimary) {
+  const { WORKER_PORTS } = setupCluster();
+  
+  const loadBalancerRequestListener = createLoadBalancer(WORKER_PORTS);
+  const loadBalancer = createServer(loadBalancerRequestListener);
+  
+  const { MULTI_PORT } = getServerConfig();
+  loadBalancer.listen(MULTI_PORT, () => {
+    console.log(`${styledBalancer} listening on port ${MULTI_PORT}`);
   });
 
-  request.on('error', (err) => {
-    console.error(err);
+  loadBalancer.on('error', (err) => {
+    console.error(`${styledBalancer} error: ${err}`);
+    process.exit(1);
   });
-};
-
-const SERVER = createServer(requestListener);
-SERVER.listen(PORT);
+} else if (cluster.isWorker) {
+  createWorkerServer();
+} else {
+  createSingleServer();
+}

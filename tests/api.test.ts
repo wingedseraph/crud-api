@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { createServer, Server } from 'node:http';
 import request from 'supertest';
-import { requestListener } from '../src/index';
+import { requestListener } from '../src/requestHandler';
 
 describe('GET/POST scenario', () => {
   let server: Server;

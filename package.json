@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development ts-node-dev --respawn src/index.ts",
     "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js",
-    "start:multi": "cross-env NODE_ENV=multi ts-node src/cluster.ts",
+    "start:multi": "cross-env NODE_ENV=multi ts-node src/index.ts --multi",
     "build": "webpack --mode production",
     "test": "jest --detectOpenHandles --forceExit",
     "lint": "eslint --ext .ts src/",

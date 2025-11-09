@@ -25,7 +25,7 @@ Create `.env` file based on `.env.example`:
 # port for default/single
 SINGLE_PORT=4000
 # port for multi
-MULTI_PORT=5000
+MULTI_PORT=5050
 ```
 
 ## Scripts
