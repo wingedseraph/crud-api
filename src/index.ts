@@ -4,12 +4,12 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from 'node:http';
+import { MESSAGE } from './consts/messages';
 import {
   sendGenericResponse,
   sendNotFoundResponse,
 } from './handler/send-response';
 import { route } from './router/router';
-import { MESSAGE } from './consts/messages';
 
 const PORT = Number(process.env.SINGLE_PORT) || 4000;
 
@@ -29,8 +29,10 @@ const requestListener = (
         sendNotFoundResponse(response);
       }
     } catch (e) {
-      if (e instanceof Error) console.error(e.message);
-      sendGenericResponse(response, 500, MESSAGE.UNKNOWN_ERROR);
+      if (e instanceof Error) {
+        console.error(e);
+        sendGenericResponse(response, 500, `${MESSAGE.NOT_FOUND}`);
+      }
     }
   });
 

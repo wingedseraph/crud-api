@@ -1,6 +1,15 @@
+import { isAllElementsAreStrings } from './isAllElementsAreStrings';
+
 export const parseBody = (body: string) => {
-  const parsed = JSON.parse(body);
   const missingFieldsArray: string[] = [];
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(body);
+  } catch (e) {
+    if (e instanceof Error) console.error(e.message);
+    return { parsed: null, missingFieldsArray, error: true };
+  }
 
   const { username, age, hobbies } = parsed;
 
@@ -14,7 +23,7 @@ export const parseBody = (body: string) => {
       field: 'age (number)',
     },
     {
-      condition: !hobbies || !Array.isArray(hobbies),
+      condition: isAllElementsAreStrings(hobbies),
       field: 'hobbies (array of strings)',
     },
   ];

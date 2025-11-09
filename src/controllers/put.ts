@@ -4,14 +4,27 @@ import { sendGenericResponse } from '../handler/send-response';
 import { parseId } from '../utils/parseId';
 import { validateUserId } from '../utils/validateUserId';
 import { parseBody } from '../utils/parseBody';
+import { MESSAGE } from '../consts/messages';
 
 export const put = (
   request: IncomingMessage,
   response: ServerResponse<IncomingMessage>,
-  body: string
+  body: string,
 ) => {
   const userId = parseId(request);
-  const { parsed  } = parseBody(body);
+  const { parsed, missingFieldsArray, error } = parseBody(body);
+
+  if (error) {
+    return sendGenericResponse(response, 400, MESSAGE.INVALID_JSON_BODY);
+  }
+
+  if (missingFieldsArray.length > 0) {
+    return sendGenericResponse(
+      response,
+      400,
+      `Request body is missing required fields: ${missingFieldsArray.join(', ')}.`,
+    );
+  }
 
   if (userId) {
     const validation = validateUserId(userId);
@@ -27,7 +40,7 @@ export const put = (
     users.dispatch({
       type: 'UPDATE_USER',
       id: userId,
-      user: parsed
+      user: parsed,
     });
 
     return sendGenericResponse(response, 200, parsed);
