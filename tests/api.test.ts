@@ -3,7 +3,7 @@ import { createServer, Server } from 'node:http';
 import request from 'supertest';
 import { requestListener } from '../src/index';
 
-describe('GET /api/users', () => {
+describe('GET/POST scenario', () => {
   let server: Server;
 
   beforeAll((done) => {
@@ -15,11 +15,25 @@ describe('GET /api/users', () => {
     server.close(done);
   });
 
-  test('should return empty array when database is empty', async () => {
+  test('GET /api/users: should return empty array when database is empty', async () => {
     const response = await request(server).get('/api/users').expect(200);
-    const { message }: {message: string}  = response.body;
+    const { message }: { message: string } = response.body;
 
     expect(Array.isArray(message)).toBe(true);
     expect(message.length).toBe(0);
+  });
+
+  test('POST api/users: should return newly created record', async () => {
+    const body = { username: 'jack', age: 20, hobbies: ['money'] };
+    const response = await request(server)
+      .post('/api/users')
+      .send(body)
+      .expect(201);
+    const { username, age, hobbies } = response.body.message;
+
+    expect(response.body.message).toHaveProperty('id');
+    expect(username).toBe(body.username);
+    expect(age).toBe(body.age);
+    expect(hobbies).toStrictEqual(body.hobbies);
   });
 });
