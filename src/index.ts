@@ -8,7 +8,7 @@ import { MESSAGE } from './consts/messages';
 import {
   sendGenericResponse,
   sendNotFoundResponse,
-} from './handler/send-response';
+} from './handler/sendResponse';
 import { route } from './router/router';
 
 const PORT = Number(process.env.SINGLE_PORT) || 4000;

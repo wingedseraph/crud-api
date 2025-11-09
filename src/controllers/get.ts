@@ -1,6 +1,6 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
 import { users } from '../db';
-import { sendGenericResponse } from '../handler/send-response';
+import { sendGenericResponse } from '../handler/sendResponse';
 import { parseId } from '../utils/parseId';
 import { validateUserId } from '../utils/validateUserId';
 

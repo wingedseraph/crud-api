@@ -1,7 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { MESSAGE } from '../consts/messages';
 
-// todo: do we sure need to place it there? may be utils?
 export const sendGenericResponse = (
   response: ServerResponse<IncomingMessage>,
   responseCode = 404,
@@ -10,7 +9,6 @@ export const sendGenericResponse = (
   if (!response) return null;
 
   response.writeHead(responseCode, { 'Content-Type': 'application/json' });
-  // do i need return without object wrapper?
   return response.end(
     JSON.stringify({
       message,

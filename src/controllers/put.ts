@@ -1,10 +1,10 @@
 import { type IncomingMessage, type ServerResponse } from 'node:http';
+import { MESSAGE } from '../consts/messages';
 import { users } from '../db';
-import { sendGenericResponse } from '../handler/send-response';
+import { sendGenericResponse } from '../handler/sendResponse';
+import { parseBody } from '../utils/parseBody';
 import { parseId } from '../utils/parseId';
 import { validateUserId } from '../utils/validateUserId';
-import { parseBody } from '../utils/parseBody';
-import { MESSAGE } from '../consts/messages';
 
 export const put = (
   request: IncomingMessage,

@@ -16,10 +16,11 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": [
     "src/**/*.ts",
+    "tests/**/*.ts",
     "eslint.config.js"
   ]
 }

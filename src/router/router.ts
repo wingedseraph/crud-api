@@ -4,7 +4,7 @@ import { delete_ } from '../controllers/delete';
 import { get } from '../controllers/get';
 import { post } from '../controllers/post';
 import { put } from '../controllers/put';
-import { sendGenericResponse } from '../handler/send-response';
+import { sendGenericResponse } from '../handler/sendResponse';
 
 const ROUTES_BY_METHOD = {
   GET: (request: IncomingMessage, response: ServerResponse<IncomingMessage>) =>

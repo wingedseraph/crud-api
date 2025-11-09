@@ -3,10 +3,10 @@ import { randomUUID } from 'node:crypto';
 type GenericReducer<state, action> = (state: state, action: action) => state;
 
 type User = {
+  id: string;
   username: string;
   age: number;
   hobbies: string[];
-  id: string;
 };
 
 type UserAction = {
