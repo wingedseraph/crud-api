@@ -15,7 +15,7 @@ describe('GET/POST scenario', () => {
     server.close(done);
   });
 
-  test('GET /api/users: should return empty array when database is empty', async () => {
+  test('1. GET /api/users: should return empty array when database is empty', async () => {
     const response = await request(server).get('/api/users').expect(200);
     const { message }: { message: string } = response.body;
 
@@ -23,7 +23,7 @@ describe('GET/POST scenario', () => {
     expect(message.length).toBe(0);
   });
 
-  test('POST api/users: should return newly created record', async () => {
+  test('2. POST api/users: should return newly created record', async () => {
     const body = { username: 'jack', age: 20, hobbies: ['money'] };
     const response = await request(server)
       .post('/api/users')
@@ -32,6 +32,20 @@ describe('GET/POST scenario', () => {
     const { username, age, hobbies } = response.body.message;
 
     expect(response.body.message).toHaveProperty('id');
+    expect(username).toBe(body.username);
+    expect(age).toBe(body.age);
+    expect(hobbies).toStrictEqual(body.hobbies);
+  });
+  test('3. POST api/users: should return newly created record', async () => {
+    const body = { username: 'jack', age: 20, hobbies: ['money'] };
+    const getAllUsers = await request(server).get('/api/users').expect(200);
+    const { id } = getAllUsers.body.message;
+
+    const getUser = await request(server).get(`/api/users${id}`).expect(200);
+    const { id_, username, age, hobbies } = getUser.body.message[0];
+    
+
+    expect(id).toBe(id_);
     expect(username).toBe(body.username);
     expect(age).toBe(body.age);
     expect(hobbies).toStrictEqual(body.hobbies);
