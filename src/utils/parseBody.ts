@@ -23,7 +23,7 @@ export const parseBody = (body: string) => {
       field: 'age (number)',
     },
     {
-      condition: isAllElementsAreStrings(hobbies),
+      condition: !isAllElementsAreStrings(hobbies),
       field: 'hobbies (array of strings)',
     },
   ];
