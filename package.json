@@ -34,7 +34,6 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^20.19.24",
     "@types/supertest": "^6.0.3",
-    "@types/uuid": "^9.0.8",
     "cross-env": "^7.0.3",
     "eslint": "^9.39.0",
     "globals": "^16.5.0",
@@ -48,7 +47,6 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
-    "uuid": "^13.0.0",
     "webpack": "^5.102.1",
     "webpack-cli": "^5.1.4"
   }
