@@ -39,13 +39,11 @@ describe('GET/POST scenario', () => {
   test('3. POST api/users: should return newly created record', async () => {
     const body = { username: 'jack', age: 20, hobbies: ['money'] };
     const getAllUsers = await request(server).get('/api/users').expect(200);
-    const { id } = getAllUsers.body.message;
-
+    const { id } = getAllUsers.body.message[0];
     const getUser = await request(server).get(`/api/users${id}`).expect(200);
-    const { id_, username, age, hobbies } = getUser.body.message[0];
-    
+    const { username, age, hobbies } = getUser.body.message[0];
 
-    expect(id).toBe(id_);
+    expect(id).toBe(getAllUsers.body.message[0].id);
     expect(username).toBe(body.username);
     expect(age).toBe(body.age);
     expect(hobbies).toStrictEqual(body.hobbies);
