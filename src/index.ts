@@ -13,7 +13,7 @@ import { route } from './router/router';
 
 const PORT = Number(process.env.SINGLE_PORT) || 4000;
 
-const requestListener = (
+export const requestListener = (
   request: IncomingMessage,
   response: ServerResponse<IncomingMessage>,
 ) => {
