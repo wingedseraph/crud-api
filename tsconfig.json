@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/ts-node/tsconfig.schema.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "ESNext"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    // "baseUrl": "./",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "eslint.config.mjs"
+  ]
+}
